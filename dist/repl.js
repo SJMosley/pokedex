@@ -1,11 +1,5 @@
-import { createInterface } from "readline";
-import { getCommands } from "./command_registry.js";
-export function startREPL() {
-    const rl = createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: "pokedex > ",
-    });
+export function startREPL(existingState) {
+    const rl = existingState.readline_interface;
     rl.prompt();
     rl.on("line", async (input) => {
         const words = cleanInput(input);
@@ -14,7 +8,7 @@ export function startREPL() {
             return;
         }
         const commandName = words[0];
-        const commands = getCommands();
+        const commands = existingState.command_registry;
         const cmd = commands[commandName];
         if (!cmd) {
             console.log(`Unknown command: "${commandName}". Type "help" for a list of commands.`);
@@ -22,7 +16,7 @@ export function startREPL() {
             return;
         }
         try {
-            cmd.callback(commands);
+            cmd.callback(existingState);
         }
         catch (e) {
             console.log(e);

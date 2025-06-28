@@ -1,4 +1,5 @@
-export function commandHelp(commands) {
+export function commandHelp(current_state) {
+    const commands = current_state.command_registry;
     console.log();
     console.log("Welcome to the Pokedex!");
     console.log("Usage:");
