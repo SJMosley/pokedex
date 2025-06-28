@@ -3,13 +3,21 @@ import { describe, expect, test } from "vitest";
 
 describe.each([
   {
-    input: "  hello world  ",
+    input: "  ",
+    expected: [],
+  },
+  {
+    input: "  hello  ",
+    expected: ["hello"],
+  },
+  {
+    input: "  hello  world  ",
     expected: ["hello", "world"],
   },
-  // {
-  //   input: "  hello    world  ",
-  //   expected: ["hello", "world"],
-  // },
+  {
+    input: "  HellO  World  ",
+    expected: ["hello", "world"],
+  },
   {
     input: "  Charmander Bulbasaur PIKACHU  ",
     expected: ["charmander", "bulbasaur", "pikachu"],
@@ -22,7 +30,7 @@ describe.each([
 ])("cleanInput($input)", ({ input, expected }) => {
   test(`Expected: ${expected}`, () => {
     // TODO: call cleanInput with the input here
-    let actual = cleanInput(input);
+    const actual = cleanInput(input);
 
     // The `expect` and `toHaveLength` functions are from vitest
     // they will fail the test if the condition is not met
