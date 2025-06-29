@@ -1,5 +1,6 @@
 import { createInterface } from "readline";
 import { getCommands } from "./command_registry.js";
+import { PokeAPI } from "./pokeapi.js";
 export function initState() {
     const rl = createInterface({
         input: process.stdin,
@@ -7,5 +8,12 @@ export function initState() {
         prompt: "pokedex 🔴> ",
     });
     const cmd_reg = getCommands();
-    return { readline_interface: rl, command_registry: cmd_reg };
+    const pokeapi = new PokeAPI();
+    return {
+        readline_interface: rl,
+        command_registry: cmd_reg,
+        pokeapi: pokeapi,
+        nextLocationsURL: "https://pokeapi.co/api/v2/location-area/",
+        prevLocationsURL: null,
+    };
 }

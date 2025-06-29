@@ -1,4 +1,4 @@
-export function startREPL(existingState) {
+export async function startREPL(existingState) {
     const rl = existingState.readline_interface;
     rl.prompt();
     rl.on("line", async (input) => {
@@ -16,7 +16,7 @@ export function startREPL(existingState) {
             return;
         }
         try {
-            cmd.callback(existingState);
+            await cmd.callback(existingState);
         }
         catch (e) {
             console.log(e);

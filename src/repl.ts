@@ -2,7 +2,7 @@ import { createInterface } from "readline";
 import { getCommands } from "./command_registry.js";
 import { initState, State } from "./state.js";
 
-export function startREPL(existingState: State) {
+export async function startREPL(existingState: State) {
   const rl = existingState.readline_interface;
 
   rl.prompt();
@@ -27,7 +27,7 @@ export function startREPL(existingState: State) {
     }
 
     try {
-      cmd.callback(existingState);
+      await cmd.callback(existingState);
     } catch (e) {
       console.log(e);
     }
