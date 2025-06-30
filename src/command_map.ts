@@ -15,9 +15,8 @@ export async function commandMap(current_state: State) {
 }
 
 export async function commandMapB(current_state: State) {
-  if (current_state.prevLocationsURL == null) {
-    console.log("you're on the first page");
-    return;
+  if (!current_state.prevLocationsURL) {
+    throw new Error("you're on the first page");
   }
 
   const response = await current_state.pokeapi.fetchLocations(
