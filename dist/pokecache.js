@@ -22,14 +22,17 @@ export class Cache {
         return entry.val;
     }
     #reap() {
+        const now = Date.now();
         for (const [key, val] of this.#cache.entries()) {
-            if (val.createdAt < Date.now() - this.#interval) {
+            if (val.createdAt < now - this.#interval) {
                 this.#cache.delete(key);
             }
         }
     }
     #startReapLoop() {
-        this.#reapIntervalID = setInterval(this.#reap, this.#interval);
+        this.#reapIntervalID = setInterval(() => {
+            this.#reap();
+        }, this.#interval);
     }
     stopReapLoop() {
         clearInterval(this.#reapIntervalID);

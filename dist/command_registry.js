@@ -1,6 +1,6 @@
 import { commandHelp } from "./command_help.js";
 import { commandExit } from "./command_exit.js";
-import { commandMap, commandMapB } from "./command_map.js";
+import { commandMapForward, commandMapBack } from "./command_map.js";
 export function getCommands() {
     return {
         help: {
@@ -11,12 +11,12 @@ export function getCommands() {
         map: {
             name: "map",
             description: "Navigate the world",
-            callback: commandMap,
+            callback: commandMapForward,
         },
         mapb: {
             name: "mapb",
             description: "Navigate to previous locations",
-            callback: commandMapB,
+            callback: commandMapBack,
         },
         exit: {
             name: "exit",

@@ -1,6 +1,4 @@
-import { createInterface } from "readline";
-import { getCommands } from "./command_registry.js";
-import { initState, State } from "./state.js";
+import { State } from "./state.js";
 
 export async function startREPL(existingState: State) {
   const rl = existingState.readline_interface;

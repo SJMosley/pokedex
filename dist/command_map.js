@@ -1,21 +1,19 @@
-export async function commandMap(current_state) {
-    const response = await current_state.pokeapi.fetchLocations(current_state.nextLocationsURL);
-    current_state.nextLocationsURL = response.next;
-    current_state.prevLocationsURL = response.previous;
-    const locations = response.locations;
-    for (let location of locations) {
+export async function commandMapForward(current_state) {
+    const locations = await current_state.pokeapi.fetchLocations(current_state.nextLocationsURL);
+    current_state.nextLocationsURL = locations.next;
+    current_state.prevLocationsURL = locations.previous;
+    for (let location of locations.results) {
         console.log(location.name);
     }
 }
-export async function commandMapB(current_state) {
-    if (!current_state.prevLocationsURL) {
+export async function commandMapBack(state) {
+    if (!state.prevLocationsURL) {
         throw new Error("you're on the first page");
     }
-    const response = await current_state.pokeapi.fetchLocations(current_state.prevLocationsURL);
-    current_state.nextLocationsURL = response.next;
-    current_state.prevLocationsURL = response.previous;
-    const locations = response.locations;
-    for (let location of locations) {
+    const locations = await state.pokeapi.fetchLocations(state.prevLocationsURL);
+    state.nextLocationsURL = locations.next;
+    state.prevLocationsURL = locations.previous;
+    for (let location of locations.results) {
         console.log(location.name);
     }
 }
