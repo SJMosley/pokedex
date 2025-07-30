@@ -15,5 +15,6 @@ export function initState(cacheInterval) {
         pokeapi: pokeapi,
         nextLocationsURL: "https://pokeapi.co/api/v2/location-area/",
         prevLocationsURL: null,
+        pokedex: {},
     };
 }

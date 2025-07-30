@@ -4,7 +4,7 @@ export async function commandHelp(state) {
     console.log("Usage:");
     console.log();
     for (const cmd of Object.values(state.command_registry)) {
-        const spacer = " ".repeat(6 - cmd.name.length);
+        const spacer = " ".repeat(8 - cmd.name.length);
         console.log(`${cmd.name}:${spacer}${cmd.description}`);
     }
     console.log();

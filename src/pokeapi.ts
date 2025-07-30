@@ -36,7 +36,7 @@ export class PokeAPI {
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
-    const url = `${PokeAPI.baseURL}/location/${locationName}/`;
+    const url = `${PokeAPI.baseURL}/location-area/${locationName}/`;
 
     const cached = this.cache.get<Location>(url);
     if (cached) {
@@ -56,15 +56,28 @@ export class PokeAPI {
         `Error fetching location '${locationName}': ${(e as Error).message}`,
       );
     }
+  }
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  async fetchPokemon(pokemonName: string): Promise<Pokemon> {
+    const url = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
 
-    return response.json();
+    const cached = this.cache.get<Pokemon>(url);
+    if (cached) {
+      return cached;
+    }
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        throw new Error(`${resp.status} ${resp.statusText}`);
+      }
+      const pokemon: Pokemon = await resp.json();
+      this.cache.add(url, pokemon);
+      return pokemon;
+    } catch (e) {
+      throw new Error(
+        `Error fetching pokemon '${pokemonName}': : ${(e as Error).message}`,
+      );
+    }
   }
 }
 
@@ -129,4 +142,33 @@ export type Location = {
       };
     }[];
   }[];
+};
+
+export type Pokemon = {
+  id: number;
+  name: string;
+  base_experience: number;
+  height: number;
+  // is_default: boolean;
+  // order: number;
+  weight: number;
+  // species: {
+  //   name: string;
+  //   url: string;
+  // };
+  stats: Array<{
+    base_stat: number;
+    effort: number;
+    stat: {
+      name: string;
+      url: string;
+    };
+  }>;
+  types: Array<{
+    slot: number;
+    type: {
+      name: string;
+      url: string;
+    };
+  }>;
 };

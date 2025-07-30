@@ -16,7 +16,12 @@ export async function startREPL(existingState) {
             return;
         }
         try {
-            await cmd.callback(existingState);
+            await cmd.callback(existingState, ...words.slice(1));
+            // if (words.length > 1) {
+            //   await cmd.callback(existingState, ...words.slice(1));
+            // } else {
+            //   await cmd.callback(existingState);
+            // }
         }
         catch (e) {
             console.log(e);
